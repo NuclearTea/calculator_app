@@ -75,56 +75,86 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            const Padding(
-              padding: EdgeInsets.fromLTRB(60, 10, 10, 10),
+            const Expanded(flex: 50, child: Icon(Icons.menu_rounded)
+                // child: Padding(
+                //   padding: EdgeInsets.fromLTRB(60, 10, 10, 10),
+                //   child: Text(
+                //     "",
+                //     textAlign: TextAlign.start,
+                //     style: TextStyle(
+                //       fontSize: 28,
+                //     ),
+                //   ),
+                // ),
+                ),
+            const Expanded(
+              flex: 1,
               child: Text(
-                "",
-                textAlign: TextAlign.start,
+                "|",
+                textAlign: TextAlign.end,
                 style: TextStyle(
-                  fontSize: 28,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w100,
                 ),
               ),
             ),
-            const Text(
-              "|",
-              textAlign: TextAlign.end,
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w100,
+            Expanded(
+              flex: 20,
+              child: TextButton(
+                  onPressed: () {},
+                  child: const Text(
+                    "500",
+                    style: TextStyle(
+                        color: Colors.grey,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20),
+                  )),
+            ),
+            const Expanded(
+              flex: 1,
+              child: Text(
+                "|",
+                textAlign: TextAlign.end,
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w100,
+                ),
               ),
             ),
-            TextButton(
-                // style: TextButton.styleFrom(
-                //   minimumSize: const Size.fromHeight(50),
-                // ),
-                onPressed: () {},
-                child: const Text(
-                  "500",
-                  style: TextStyle(
-                      color: Colors.grey,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20),
-                )),
-            const Text(
-              "|",
-              textAlign: TextAlign.end,
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w100,
+            Expanded(
+                flex: 20,
+                child: TextButton(
+                    onPressed: () {}, child: const Text("Suggestion"))),
+            const Expanded(
+              flex: 1,
+              child: Text(
+                "|",
+                textAlign: TextAlign.end,
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w100,
+                ),
               ),
             ),
-            // SizedBox(
-            //   width: 10,
-            // ),
-            OutlinedButton(onPressed: () {}, child: const Text("Suggestion")),
-            // SizedBox(
-            //   width: 10,
-            // ),
-            OutlinedButton(onPressed: () {}, child: const Text("Suggestion")),
-            // SizedBox(
-            //   width: 10,
-            // ),
-            OutlinedButton(onPressed: () {}, child: const Text("Suggestion")),
+            Expanded(
+                flex: 20,
+                child: TextButton(
+                    onPressed: () {}, child: const Text("Suggestion"))),
+            const Expanded(
+              flex: 1,
+              child: Text(
+                "|",
+                textAlign: TextAlign.end,
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w100,
+                ),
+              ),
+            ),
+            Expanded(
+                flex: 20,
+                child: TextButton(
+                    onPressed: () {}, child: const Text("Suggestion"))),
           ],
         ),
       ), // This trailing comma makes auto-formatting nicer for build methods.
