@@ -75,7 +75,13 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            const Expanded(flex: 50, child: Icon(Icons.menu_rounded)
+            Expanded(
+                flex: 50,
+                child: TextButton.icon(
+                  icon: Icon(Icons.menu_rounded),
+                  onPressed: () {},
+                  label: const Text(""),
+                )
                 // child: Padding(
                 //   padding: EdgeInsets.fromLTRB(60, 10, 10, 10),
                 //   child: Text(
