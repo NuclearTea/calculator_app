@@ -89,13 +89,11 @@ class _MyHomePageState extends State<MyHomePage> {
                   Icons.menu_rounded,
                 ),
                 onPressed: () {},
-                // label: const Text(""),
               ),
             ),
             SizedBox(
               width:
                   MediaQuery.of(context).size.width * (dividerWidthScaleFactor),
-              // flex: 1,
               child: const Text(
                 "|",
                 textAlign: TextAlign.end,
@@ -109,7 +107,6 @@ class _MyHomePageState extends State<MyHomePage> {
               width: MediaQuery.of(context).size.width *
                   (suggestionWidthScaleFactor),
               height: MediaQuery.of(context).size.height * (heightScaleFactor),
-              // flex: 20,
               child: TextButton(
                   onPressed: () {},
                   child: const Text(
@@ -123,15 +120,10 @@ class _MyHomePageState extends State<MyHomePage> {
             SizedBox(
               width:
                   MediaQuery.of(context).size.width * (dividerWidthScaleFactor),
-              // flex: 1,
               child: Text(
                 "|",
                 textAlign: TextAlign.end,
-                style: TextStyle(
-                  color: Colors.grey.shade700,
-                  fontSize: 20,
-                  // fontWeight: FontWeight.w100,
-                ),
+                style: TextStyle(color: Colors.grey.shade700, fontSize: 20),
               ),
             ),
             SizedBox(
@@ -139,14 +131,11 @@ class _MyHomePageState extends State<MyHomePage> {
                     (suggestionWidthScaleFactor),
                 height:
                     MediaQuery.of(context).size.height * (heightScaleFactor),
-
-                // flex: 20,
                 child: TextButton(
                     onPressed: () {}, child: const Text("Suggestion"))),
             SizedBox(
               width:
                   MediaQuery.of(context).size.width * (dividerWidthScaleFactor),
-              // flex: 1,
               child: const Text(
                 "|",
                 textAlign: TextAlign.end,
@@ -161,13 +150,11 @@ class _MyHomePageState extends State<MyHomePage> {
                     (suggestionWidthScaleFactor),
                 height:
                     MediaQuery.of(context).size.height * (heightScaleFactor),
-                // flex: 20,
                 child: TextButton(
                     onPressed: () {}, child: const Text("Suggestion"))),
             SizedBox(
               width:
                   MediaQuery.of(context).size.width * (dividerWidthScaleFactor),
-              // flex: 1,
               child: const Text(
                 "|",
                 textAlign: TextAlign.end,
@@ -182,8 +169,6 @@ class _MyHomePageState extends State<MyHomePage> {
                     (suggestionWidthScaleFactor),
                 height:
                     MediaQuery.of(context).size.height * (heightScaleFactor),
-
-                // flex: 20,
                 child: TextButton(
                     onPressed: () {}, child: const Text("Suggestion"))),
           ],
