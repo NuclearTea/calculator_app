@@ -63,6 +63,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    double heightScaleFactor = 1 / 10;
+    double suggestionWidthScaleFactor = 1 / 6;
+    double dividerWidthScaleFactor = 1 / 500;
+
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
@@ -71,31 +75,28 @@ class _MyHomePageState extends State<MyHomePage> {
     // than having to individually change instances of widgets.
     return Scaffold(
       body: Container(
+        height: MediaQuery.of(context).size.height * (heightScaleFactor),
         color: Colors.grey.shade200,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Expanded(
-                flex: 50,
-                child: TextButton.icon(
-                  icon: Icon(Icons.menu_rounded),
-                  onPressed: () {},
-                  label: const Text(""),
-                )
-                // child: Padding(
-                //   padding: EdgeInsets.fromLTRB(60, 10, 10, 10),
-                //   child: Text(
-                //     "",
-                //     textAlign: TextAlign.start,
-                //     style: TextStyle(
-                //       fontSize: 28,
-                //     ),
-                //   ),
-                // ),
+            SizedBox(
+              width: MediaQuery.of(context).size.width * (7 / 24),
+              height: MediaQuery.of(context).size.height * (heightScaleFactor),
+              child: IconButton(
+                iconSize: 50,
+                icon: const Icon(
+                  Icons.menu_rounded,
                 ),
-            const Expanded(
-              flex: 1,
-              child: Text(
+                onPressed: () {},
+                // label: const Text(""),
+              ),
+            ),
+            SizedBox(
+              width:
+                  MediaQuery.of(context).size.width * (dividerWidthScaleFactor),
+              // flex: 1,
+              child: const Text(
                 "|",
                 textAlign: TextAlign.end,
                 style: TextStyle(
@@ -104,8 +105,11 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
             ),
-            Expanded(
-              flex: 20,
+            SizedBox(
+              width: MediaQuery.of(context).size.width *
+                  (suggestionWidthScaleFactor),
+              height: MediaQuery.of(context).size.height * (heightScaleFactor),
+              // flex: 20,
               child: TextButton(
                   onPressed: () {},
                   child: const Text(
@@ -116,24 +120,34 @@ class _MyHomePageState extends State<MyHomePage> {
                         fontSize: 20),
                   )),
             ),
-            const Expanded(
-              flex: 1,
+            SizedBox(
+              width:
+                  MediaQuery.of(context).size.width * (dividerWidthScaleFactor),
+              // flex: 1,
               child: Text(
                 "|",
                 textAlign: TextAlign.end,
                 style: TextStyle(
+                  color: Colors.grey.shade700,
                   fontSize: 20,
-                  fontWeight: FontWeight.w100,
+                  // fontWeight: FontWeight.w100,
                 ),
               ),
             ),
-            Expanded(
-                flex: 20,
+            SizedBox(
+                width: MediaQuery.of(context).size.width *
+                    (suggestionWidthScaleFactor),
+                height:
+                    MediaQuery.of(context).size.height * (heightScaleFactor),
+
+                // flex: 20,
                 child: TextButton(
                     onPressed: () {}, child: const Text("Suggestion"))),
-            const Expanded(
-              flex: 1,
-              child: Text(
+            SizedBox(
+              width:
+                  MediaQuery.of(context).size.width * (dividerWidthScaleFactor),
+              // flex: 1,
+              child: const Text(
                 "|",
                 textAlign: TextAlign.end,
                 style: TextStyle(
@@ -142,13 +156,19 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
             ),
-            Expanded(
-                flex: 20,
+            SizedBox(
+                width: MediaQuery.of(context).size.width *
+                    (suggestionWidthScaleFactor),
+                height:
+                    MediaQuery.of(context).size.height * (heightScaleFactor),
+                // flex: 20,
                 child: TextButton(
                     onPressed: () {}, child: const Text("Suggestion"))),
-            const Expanded(
-              flex: 1,
-              child: Text(
+            SizedBox(
+              width:
+                  MediaQuery.of(context).size.width * (dividerWidthScaleFactor),
+              // flex: 1,
+              child: const Text(
                 "|",
                 textAlign: TextAlign.end,
                 style: TextStyle(
@@ -157,8 +177,13 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
             ),
-            Expanded(
-                flex: 20,
+            SizedBox(
+                width: MediaQuery.of(context).size.width *
+                    (suggestionWidthScaleFactor),
+                height:
+                    MediaQuery.of(context).size.height * (heightScaleFactor),
+
+                // flex: 20,
                 child: TextButton(
                     onPressed: () {}, child: const Text("Suggestion"))),
           ],
