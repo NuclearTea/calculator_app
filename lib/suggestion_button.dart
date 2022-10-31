@@ -1,7 +1,8 @@
-import 'package:flutter/material.dart';
+// import 'package:flutter/material.dart';
 
 // class SuggestionButton extends StatefulWidget {
-//   const SuggestionButton({super.key});
+//   final Function update;
+//   const SuggestionButton({super.key, required this.update});
 
 //   @override
 //   State<SuggestionButton> createState() => _SuggestionButtonState();
@@ -26,6 +27,6 @@ import 'package:flutter/material.dart';
 //     );
 //   }
 // }
-class SuggestionButton {
-  SuggestionButton();
-}
+// // class SuggestionButton {
+// //   SuggestionButton();
+// // }
