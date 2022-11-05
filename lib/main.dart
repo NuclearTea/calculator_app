@@ -1,5 +1,6 @@
 import 'dart:collection';
 // import 'package:calculator_app/resultant_form.dart';
+import 'package:calculator_app/equation_box.dart';
 import 'package:calculator_app/suggestion_button.dart';
 import 'package:flutter/material.dart';
 
@@ -91,24 +92,46 @@ class _MyHomePageState extends State<MyHomePage> {
     "=",
   ];
 
+  List<String> numberValues = [
+    "0",
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9"
+  ];
+
+  String clear = "C";
+  String equalButton = "=";
+
   // late var _addNumberToQueue = int.parse(resultantController.text);
   Queue recentHistory = Queue();
-  final resultantController = TextEditingController();
+  var displayString = "";
+  var equation = "";
 
-  @override
-  void dispose() {
-    // Clean up the controller when the widget is disposed.
-    resultantController.dispose();
-    super.dispose();
-  }
+  // final resultantController = TextEditingController();
+
+  // @override
+  // void dispose() {
+  //   // Clean up the controller when the widget is disposed.
+  //   resultantController.dispose();
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
     double heightScaleFactor = 1 / 10;
     double suggestionWidthScaleFactor = 1 / 6;
     double dividerWidthScaleFactor = 1 / 500;
+    // EquationBox equationField = EquationBox(
+    //   displayInput: displayString,
+    // );
 
-    print(acceptableValues.length);
+    // print(acceptableValues.length);
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
@@ -120,8 +143,11 @@ class _MyHomePageState extends State<MyHomePage> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(50),
+              color: Colors.grey.shade200,
+            ),
             height: MediaQuery.of(context).size.height * (heightScaleFactor),
-            color: Colors.grey.shade200,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
@@ -221,103 +247,88 @@ class _MyHomePageState extends State<MyHomePage> {
               ],
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              style: const TextStyle(fontFamily: "Roboto"),
-              keyboardType: TextInputType.text,
-              textAlign: TextAlign.end,
-              controller: resultantController,
-            ),
-          ),
-          GridView(
-              shrinkWrap: true,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 4,
-                childAspectRatio: 3,
-                crossAxisSpacing: 0,
-                mainAxisSpacing: 50,
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Container(
+                child: Text("$equation"),
+                color: Colors.grey,
               ),
-              children: acceptableValues
-                  .map(
-                    (value) => Container(
-                      margin: const EdgeInsets.fromLTRB(10, 0, 10, 10),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(100)),
-                      child: ElevatedButton(
-                        onPressed: () {
-                          setState(() {});
-                        },
-                        child: FittedBox(
-                          fit: BoxFit.contain,
-                          child: Text(
-                            value,
-                            style: const TextStyle(
-                              fontFamily: "Roboto",
-                              fontWeight: FontWeight.bold,
-                              fontSize: 30,
+              Container(child: Text("$displayString"))
+            ],
+          ),
+          // LayoutBuilder(
+          //   builder: ((BuildContext context, BoxConstraints constraints) =>
+          //       Container(
+          //         height: constraints.maxHeight / 2,
+          //         width: constraints.maxWidth / 2,
+          //         decoration: BoxDecoration(
+          //           color: Colors.grey.shade400,
+          //         ),
+          //         child: Text("Equation"),
+          //       )),
+          // ),
+          // Container(child: Text("Equation input")),
+          Container(
+            decoration: const BoxDecoration(
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(16),
+                    topRight: Radius.circular(16)),
+                color: Colors.black),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: GridView(
+                  shrinkWrap: true,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 4,
+                    childAspectRatio: 3,
+                    crossAxisSpacing: 0,
+                    mainAxisSpacing: 50,
+                  ),
+                  children: acceptableValues
+                      .map(
+                        (value) => Container(
+                          margin: const EdgeInsets.fromLTRB(10, 0, 10, 10),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(100)),
+                          child: ElevatedButton(
+                            onPressed: () {
+                              setState(() {
+                                if (value == clear) {
+                                  displayString = "";
+                                } else if (value == equalButton) {
+                                  ;
+                                } else {
+                                  displayString += value;
+                                }
+                                print(displayString);
+                                // equationField.setDisplayInput(value.toString());
+                                // equationField.displayInput = value;
+                                // equationField.resultantController.text = value;
+                                // equationField.resultantController.text
+                                // print(equationField.resultantController.text);
+                                // print(equationField.getDisplayInput);
+                              });
+                            },
+                            child: FittedBox(
+                              fit: BoxFit.contain,
+                              child: Text(
+                                value,
+                                style: const TextStyle(
+                                  fontFamily: "Roboto",
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 30,
+                                ),
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ),
-                  )
-                  .toList())
+                      )
+                      .toList()),
+            ),
+          )
         ],
       ),
-      // Padding(
-      //   padding: const EdgeInsets.all(8.0),
-      //   child: GridView.builder(
-      //     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-      //         crossAxisCount: 4, crossAxisSpacing: 12, mainAxisSpacing: 12),
-      //     itemCount: acceptableValues.length,
-      //     itemBuilder: (context, index) {
-      //       return Container(
-      //         color: Colors.black,
-      //       );
-      //     },
-      //   ),
-      // )
-      // GridView.count(
-      //   primary: false,
-      //   padding: const EdgeInsets.all(20),
-      //   crossAxisSpacing: 10,
-      //   mainAxisSpacing: 10,
-      //   crossAxisCount: 2,
-      //   children: <Widget>[
-      //     Container(
-      //       padding: const EdgeInsets.all(8),
-      //       color: Colors.teal[100],
-      //       child: const Text("He'd have you all unravel at the"),
-      //     ),
-      //     Container(
-      //       padding: const EdgeInsets.all(8),
-      //       color: Colors.teal[200],
-      //       child: const Text('Heed not the rabble'),
-      //     ),
-      //     Container(
-      //       padding: const EdgeInsets.all(8),
-      //       color: Colors.teal[300],
-      //       child: const Text('Sound of screams but the'),
-      //     ),
-      //     Container(
-      //       padding: const EdgeInsets.all(8),
-      //       color: Colors.teal[400],
-      //       child: const Text('Who scream'),
-      //     ),
-      //     Container(
-      //       padding: const EdgeInsets.all(8),
-      //       color: Colors.teal[500],
-      //       child: const Text('Revolution is coming...'),
-      //     ),
-      //     Container(
-      //       padding: const EdgeInsets.all(8),
-      //       color: Colors.teal[600],
-      //       child: const Text('Revolution, they...'),
-      //     ),
-      //     ],
-      //   )
-      // ],
     );
   }
 }
