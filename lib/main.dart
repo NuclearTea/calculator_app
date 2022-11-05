@@ -8,19 +8,6 @@ void main() {
   runApp(const MyApp());
 }
 
-// class SuggestionButtonList extends StatefulWidget {
-//   const SuggestionButtonList({super.key});
-
-//   @override
-//   State<SuggestionButtonList> createState() => _SuggestionButtonListState();
-// }
-
-// class _SuggestionButtonListState extends State<SuggestionButtonList> {
-//   List<SuggestionButton> = [
-//     SuggestionButton()
-//   ]
-// }
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -108,36 +95,16 @@ class _MyHomePageState extends State<MyHomePage> {
   String clear = "C";
   String equalButton = "=";
 
-  // late var _addNumberToQueue = int.parse(resultantController.text);
   Queue recentHistory = Queue();
   var displayString = "";
   var equation = "";
-
-  // final resultantController = TextEditingController();
-
-  // @override
-  // void dispose() {
-  //   // Clean up the controller when the widget is disposed.
-  //   resultantController.dispose();
-  //   super.dispose();
-  // }
 
   @override
   Widget build(BuildContext context) {
     double heightScaleFactor = 1 / 10;
     double suggestionWidthScaleFactor = 1 / 6;
     double dividerWidthScaleFactor = 1 / 500;
-    // EquationBox equationField = EquationBox(
-    //   displayInput: displayString,
-    // );
 
-    // print(acceptableValues.length);
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -257,18 +224,6 @@ class _MyHomePageState extends State<MyHomePage> {
               Container(child: Text("$displayString"))
             ],
           ),
-          // LayoutBuilder(
-          //   builder: ((BuildContext context, BoxConstraints constraints) =>
-          //       Container(
-          //         height: constraints.maxHeight / 2,
-          //         width: constraints.maxWidth / 2,
-          //         decoration: BoxDecoration(
-          //           color: Colors.grey.shade400,
-          //         ),
-          //         child: Text("Equation"),
-          //       )),
-          // ),
-          // Container(child: Text("Equation input")),
           Container(
             decoration: const BoxDecoration(
                 borderRadius: BorderRadius.only(
@@ -302,12 +257,6 @@ class _MyHomePageState extends State<MyHomePage> {
                                   displayString += value;
                                 }
                                 print(displayString);
-                                // equationField.setDisplayInput(value.toString());
-                                // equationField.displayInput = value;
-                                // equationField.resultantController.text = value;
-                                // equationField.resultantController.text
-                                // print(equationField.resultantController.text);
-                                // print(equationField.getDisplayInput);
                               });
                             },
                             child: FittedBox(
