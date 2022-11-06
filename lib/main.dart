@@ -1,8 +1,8 @@
 import 'dart:collection';
 // import 'package:calculator_app/resultant_form.dart';
-import 'package:calculator_app/equation_box.dart';
-import 'package:calculator_app/suggestion_button.dart';
 import 'package:flutter/material.dart';
+import "package:math_expressions/math_expressions.dart";
+import "package:function_tree/function_tree.dart";
 
 void main() {
   runApp(const MyApp());
@@ -14,8 +14,8 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        home: const MyHomePage(
+    return const MaterialApp(
+        home: MyHomePage(
       title: '',
     ));
     // return MaterialApp(
@@ -55,6 +55,10 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
+evaluateExpression(String equation) {
+  return equation.interpret();
+}
+
 class _MyHomePageState extends State<MyHomePage> {
   List<String> acceptableValues = [
     "C",
@@ -92,12 +96,19 @@ class _MyHomePageState extends State<MyHomePage> {
     "9"
   ];
 
+  List<String> operations = ["+", "-", "x", "/"];
+
   String clear = "C";
   String equalButton = "=";
+  String decimalPoint = ".";
 
   Queue recentHistory = Queue();
   var displayString = "";
   var equation = "";
+
+  int primaryColor = 0xff6667ab;
+  int lightColor = 0xff9695dd;
+  int darkColor = 0xff373d7b;
 
   @override
   Widget build(BuildContext context) {
@@ -106,177 +117,190 @@ class _MyHomePageState extends State<MyHomePage> {
     double dividerWidthScaleFactor = 1 / 500;
 
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(50),
-              color: Colors.grey.shade200,
-            ),
-            height: MediaQuery.of(context).size.height * (heightScaleFactor),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * (7 / 24),
-                  height:
-                      MediaQuery.of(context).size.height * (heightScaleFactor),
-                  child: IconButton(
-                    iconSize: 50,
-                    icon: const Icon(
-                      Icons.menu_rounded,
-                    ),
-                    onPressed: () {},
-                  ),
-                ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width *
-                      (dividerWidthScaleFactor),
-                  child: const Text(
-                    "|",
-                    textAlign: TextAlign.end,
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w100,
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width *
-                      (suggestionWidthScaleFactor),
-                  height:
-                      MediaQuery.of(context).size.height * (heightScaleFactor),
-                  child: TextButton(
+      body: Container(
+        color: Color(primaryColor),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(50),
+                color: Color(darkColor),
+              ),
+              height: MediaQuery.of(context).size.height * (heightScaleFactor),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * (7 / 24),
+                    height: MediaQuery.of(context).size.height *
+                        (heightScaleFactor),
+                    child: IconButton(
+                      iconSize: 50,
+                      icon: const Icon(
+                        Icons.menu_rounded,
+                        color: Colors.white70,
+                      ),
                       onPressed: () {},
-                      child: const Text(
-                        "500",
-                        style: TextStyle(
-                            color: Colors.grey,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20),
-                      )),
-                ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width *
-                      (dividerWidthScaleFactor),
-                  child: Text(
-                    "|",
-                    textAlign: TextAlign.end,
-                    style: TextStyle(color: Colors.grey.shade700, fontSize: 20),
-                  ),
-                ),
-                SizedBox(
-                    width: MediaQuery.of(context).size.width *
-                        (suggestionWidthScaleFactor),
-                    height: MediaQuery.of(context).size.height *
-                        (heightScaleFactor),
-                    child: TextButton(
-                        onPressed: () {}, child: const Text("Suggestion"))),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width *
-                      (dividerWidthScaleFactor),
-                  child: const Text(
-                    "|",
-                    textAlign: TextAlign.end,
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w100,
                     ),
                   ),
-                ),
-                SizedBox(
+                  SizedBox(
                     width: MediaQuery.of(context).size.width *
-                        (suggestionWidthScaleFactor),
-                    height: MediaQuery.of(context).size.height *
-                        (heightScaleFactor),
-                    child: TextButton(
-                        onPressed: () {}, child: const Text("Suggestion"))),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width *
-                      (dividerWidthScaleFactor),
-                  child: const Text(
-                    "|",
-                    textAlign: TextAlign.end,
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w100,
+                        (dividerWidthScaleFactor),
+                    child: const Text(
+                      "|",
+                      textAlign: TextAlign.end,
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w100,
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(
+                  SizedBox(
                     width: MediaQuery.of(context).size.width *
                         (suggestionWidthScaleFactor),
                     height: MediaQuery.of(context).size.height *
                         (heightScaleFactor),
                     child: TextButton(
-                        onPressed: () {}, child: const Text("Suggestion"))),
+                        onPressed: () {},
+                        child: const Text(
+                          "500",
+                          style: TextStyle(
+                              color: Colors.grey,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20),
+                        )),
+                  ),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width *
+                        (dividerWidthScaleFactor),
+                    child: Text(
+                      "|",
+                      textAlign: TextAlign.end,
+                      style:
+                          TextStyle(color: Colors.grey.shade700, fontSize: 20),
+                    ),
+                  ),
+                  SizedBox(
+                      width: MediaQuery.of(context).size.width *
+                          (suggestionWidthScaleFactor),
+                      height: MediaQuery.of(context).size.height *
+                          (heightScaleFactor),
+                      child: TextButton(
+                          onPressed: () {}, child: const Text("Suggestion"))),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width *
+                        (dividerWidthScaleFactor),
+                    child: const Text(
+                      "|",
+                      textAlign: TextAlign.end,
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w100,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                      width: MediaQuery.of(context).size.width *
+                          (suggestionWidthScaleFactor),
+                      height: MediaQuery.of(context).size.height *
+                          (heightScaleFactor),
+                      child: TextButton(
+                          onPressed: () {}, child: const Text("Suggestion"))),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width *
+                        (dividerWidthScaleFactor),
+                    child: const Text(
+                      "|",
+                      textAlign: TextAlign.end,
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w100,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                      width: MediaQuery.of(context).size.width *
+                          (suggestionWidthScaleFactor),
+                      height: MediaQuery.of(context).size.height *
+                          (heightScaleFactor),
+                      child: TextButton(
+                          onPressed: () {}, child: const Text("Suggestion"))),
+                ],
+              ),
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Container(
+                  child: Text(equation),
+                ),
+                Container(child: Text(displayString))
               ],
             ),
-          ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Container(
-                child: Text("$equation"),
-                color: Colors.grey,
-              ),
-              Container(child: Text("$displayString"))
-            ],
-          ),
-          Container(
-            decoration: const BoxDecoration(
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(16),
-                    topRight: Radius.circular(16)),
-                color: Colors.black),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: GridView(
-                  shrinkWrap: true,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 4,
-                    childAspectRatio: 3,
-                    crossAxisSpacing: 0,
-                    mainAxisSpacing: 50,
-                  ),
-                  children: acceptableValues
-                      .map(
-                        (value) => Container(
-                          margin: const EdgeInsets.fromLTRB(10, 0, 10, 10),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(100)),
-                          child: ElevatedButton(
-                            onPressed: () {
-                              setState(() {
-                                if (value == clear) {
-                                  displayString = "";
-                                } else if (value == equalButton) {
-                                  ;
-                                } else {
-                                  displayString += value;
-                                }
-                                print(displayString);
-                              });
-                            },
-                            child: FittedBox(
-                              fit: BoxFit.contain,
-                              child: Text(
-                                value,
-                                style: const TextStyle(
-                                  fontFamily: "Roboto",
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 30,
+            Container(
+              margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(30),
+                      topRight: Radius.circular(30)),
+                  color: Color(darkColor)),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: GridView(
+                    shrinkWrap: true,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 4,
+                      childAspectRatio: 2,
+                      crossAxisSpacing: 0,
+                      mainAxisSpacing: 40,
+                    ),
+                    children: acceptableValues
+                        .map(
+                          (value) => Container(
+                            margin: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(100)),
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor: Color(lightColor)),
+                              onPressed: () {
+                                setState(() {
+                                  if (value == clear) {
+                                    displayString = "";
+                                  } else if (value == equalButton) {
+                                    equation = displayString;
+                                    var answer =
+                                        displayString.replaceAll('x', "*");
+                                    displayString =
+                                        evaluateExpression(answer).toString();
+                                    // displayString = "";
+                                  } else {
+                                    displayString += value;
+                                  }
+                                  print(displayString);
+                                });
+                              },
+                              child: FittedBox(
+                                fit: BoxFit.contain,
+                                child: Text(
+                                  value,
+                                  style: const TextStyle(
+                                    fontFamily: "Roboto",
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 30,
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                      )
-                      .toList()),
-            ),
-          )
-        ],
+                        )
+                        .toList()),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
