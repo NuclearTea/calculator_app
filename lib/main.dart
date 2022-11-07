@@ -1,6 +1,7 @@
 import 'dart:collection';
 // import 'package:calculator_app/resultant_form.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import "package:math_expressions/math_expressions.dart";
 import "package:function_tree/function_tree.dart";
 
@@ -124,7 +125,7 @@ class _MyHomePageState extends State<MyHomePage> {
           children: [
             Container(
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(50),
+                borderRadius: BorderRadius.circular(10),
                 color: Color(darkColor),
               ),
               height: MediaQuery.of(context).size.height * (heightScaleFactor),
@@ -232,8 +233,11 @@ class _MyHomePageState extends State<MyHomePage> {
             Expanded(
               flex: 1,
               child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  color: Colors.green,
+                ),
                 // width: double.infinity,
-                color: Colors.green,
                 child: Row(
                   children: [
                     Expanded(
@@ -250,6 +254,22 @@ class _MyHomePageState extends State<MyHomePage> {
                         textAlign: TextAlign.end,
                       ),
                     ),
+                    Expanded(
+                      flex: 1,
+                      child: IconButton(
+                        onPressed: () =>
+                            Clipboard.setData(ClipboardData(text: equation)),
+                        // Clipboard.setData(ClipboardData(text: equation))
+                        //     .then((value) => ScaffoldMessenger.of(context)
+                        //             .showSnackBar(const SnackBar(
+                        //           content:
+                        //               Text("The Equation has been copied!"),
+                        //           duration: Duration(milliseconds: 500),
+                        //         ))),
+                        icon: const Icon(Icons.content_copy_rounded),
+                        tooltip: "$equation has been copied to clipboard",
+                      ),
+                    )
                   ],
                 ),
               ),
@@ -257,8 +277,11 @@ class _MyHomePageState extends State<MyHomePage> {
             Expanded(
               flex: 2,
               child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.amber,
+                  borderRadius: BorderRadius.circular(12),
+                ),
                 width: double.infinity,
-                color: Colors.amber,
                 child: Row(
                   children: [
                     Expanded(
@@ -291,9 +314,9 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
             Container(
-              margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
+              margin: const EdgeInsets.fromLTRB(10, 0, 10, 0),
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
+                  borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(30),
                       topRight: Radius.circular(30)),
                   color: Color(darkColor)),
