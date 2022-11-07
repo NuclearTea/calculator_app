@@ -229,14 +229,66 @@ class _MyHomePageState extends State<MyHomePage> {
                 ],
               ),
             ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Container(
-                  child: Text(equation),
+            Expanded(
+              flex: 1,
+              child: Container(
+                // width: double.infinity,
+                color: Colors.green,
+                child: Row(
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: IconButton(
+                          iconSize: 40,
+                          onPressed: () => setState(() => equation = ""),
+                          icon: const Icon(Icons.delete)),
+                    ),
+                    Expanded(
+                      flex: 9,
+                      child: Text(
+                        equation,
+                        textAlign: TextAlign.end,
+                      ),
+                    ),
+                  ],
                 ),
-                Container(child: Text(displayString))
-              ],
+              ),
+            ),
+            Expanded(
+              flex: 2,
+              child: Container(
+                width: double.infinity,
+                color: Colors.amber,
+                child: Row(
+                  children: [
+                    Expanded(
+                      flex: 8,
+                      child: IconButton(
+                          iconSize: 60,
+                          alignment: Alignment.centerLeft,
+                          onPressed: () => setState(() => displayString = ""),
+                          icon: const Icon(Icons.delete)),
+                    ),
+                    Expanded(
+                      flex: 24,
+                      child: Text(
+                        displayString,
+                        textAlign: TextAlign.end,
+                      ),
+                    ),
+                    Expanded(
+                      flex: 8,
+                      child: IconButton(
+                          iconSize: 40,
+                          alignment: Alignment.centerRight,
+                          onPressed: () => setState(() => displayString =
+                              displayString.substring(
+                                  0, displayString.length - 1)),
+                          icon: const Icon(Icons.arrow_circle_left_rounded)),
+                    ),
+                  ],
+                ),
+              ),
             ),
             Container(
               margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
