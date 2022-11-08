@@ -4,7 +4,7 @@ import 'package:flutter/src/widgets/framework.dart';
 
 class EquationBox extends StatefulWidget {
   final resultantController = TextEditingController();
-  var displayInput;
+  late final String displayInput;
 
   EquationBox({super.key, required this.displayInput});
 
@@ -42,12 +42,7 @@ class _EquationBoxState extends State<EquationBox> {
   @override
   Widget build(BuildContext context) {
     return TextField(
-      decoration: InputDecoration(
-        label: Text(
-          widget.getDisplayInput,
-          textAlign: TextAlign.right,
-        ),
-      ),
+      decoration: InputDecoration(labelText: widget.displayInput),
       readOnly: true,
       style: const TextStyle(
         fontFamily: "Roboto",

@@ -1,5 +1,7 @@
 import 'dart:collection';
+import 'dart:math';
 // import 'package:calculator_app/resultant_form.dart';
+import 'package:calculator_app/equation_box.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import "package:math_expressions/math_expressions.dart";
@@ -106,6 +108,9 @@ class _MyHomePageState extends State<MyHomePage> {
   Queue recentHistory = Queue();
   var displayString = "";
   var equation = "";
+
+  TextEditingController displayController = TextEditingController();
+  // EquationBox textField = EquationBox(displayInput: "");
 
   int primaryColor = 0xff6667ab;
   int lightColor = 0xff9695dd;
@@ -276,43 +281,97 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             Expanded(
               flex: 2,
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.amber,
-                  borderRadius: BorderRadius.circular(12),
+              child: TextField(
+                  // controller: displayController,
+                  decoration: InputDecoration(
+                labelText: displayString,
+                prefixIcon: IconButton(
+                  icon: Icon(Icons.delete),
+                  onPressed: () => setState(() => displayString = ""),
                 ),
-                width: double.infinity,
-                child: Row(
-                  children: [
-                    Expanded(
-                      flex: 8,
-                      child: IconButton(
-                          iconSize: 60,
-                          alignment: Alignment.centerLeft,
-                          onPressed: () => setState(() => displayString = ""),
-                          icon: const Icon(Icons.delete)),
-                    ),
-                    Expanded(
-                      flex: 24,
-                      child: Text(
-                        displayString,
-                        textAlign: TextAlign.end,
-                      ),
-                    ),
-                    Expanded(
-                      flex: 8,
-                      child: IconButton(
-                          iconSize: 40,
-                          alignment: Alignment.centerRight,
-                          onPressed: () => setState(() => displayString =
-                              displayString.substring(
-                                  0, displayString.length - 1)),
-                          icon: const Icon(Icons.arrow_circle_left_rounded)),
-                    ),
-                  ],
+                suffixIcon: IconButton(
+                  onPressed: () => setState(() => displayString =
+                      displayString.substring(0, displayString.length - 1)),
+                  icon: Icon(Icons.arrow_circle_left_rounded),
                 ),
-              ),
+              )),
             ),
+
+            // Expanded(
+            //   flex: 2,
+            //   child: Row(
+            //     children: [
+            //       Expanded(
+            //         flex: 8,
+            //         child: IconButton(
+            //             iconSize: 60,
+            //             alignment: Alignment.centerLeft,
+            //             onPressed: () => setState(() => displayString = ""),
+            //             icon: const Icon(Icons.delete)),
+            //       ),
+            //       Expanded(
+            //         flex: 24,
+            //         child: TextField(
+            //           readOnly: true,
+            //           decoration: InputDecoration(
+            //             // border: OutlineInputBorder(),
+            //             labelText: displayString,
+            //           ),
+            //           textAlign: TextAlign.end,
+            //         ),
+            //       ),
+            //       Expanded(
+            //         flex: 8,
+            //         child: IconButton(
+            //             iconSize: 40,
+            //             alignment: Alignment.centerRight,
+            //             onPressed: () => setState(() => displayString =
+            //                 displayString.substring(
+            //                     0, displayString.length - 1)),
+            //             icon: const Icon(Icons.arrow_circle_left_rounded)),
+            //       ),
+            //     ],
+            //   ),
+            // ),
+            // Expanded(
+            //   flex: 2,
+            //   child: Container(
+            //     decoration: BoxDecoration(
+            //       color: Colors.amber,
+            //       borderRadius: BorderRadius.circular(12),
+            //     ),
+            //     width: double.infinity,
+            //     child: Row(
+            //       children: [
+            //         Expanded(
+            //           flex: 8,
+            //           child: IconButton(
+            //               iconSize: 60,
+            //               alignment: Alignment.centerLeft,
+            //               onPressed: () => setState(() => displayString = ""),
+            //               icon: const Icon(Icons.delete)),
+            //         ),
+            //         Expanded(
+            //           flex: 24,
+            //           child: Text(
+            //             displayString,
+            //             textAlign: TextAlign.end,
+            //           ),
+            //         ),
+            //         Expanded(
+            //           flex: 8,
+            //           child: IconButton(
+            //               iconSize: 40,
+            //               alignment: Alignment.centerRight,
+            //               onPressed: () => setState(() => displayString =
+            //                   displayString.substring(
+            //                       0, displayString.length - 1)),
+            //               icon: const Icon(Icons.arrow_circle_left_rounded)),
+            //         ),
+            //       ],
+            //     ),
+            //   ),
+            // ),
             Container(
               margin: const EdgeInsets.fromLTRB(10, 0, 10, 0),
               decoration: BoxDecoration(
@@ -350,6 +409,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                         displayString.replaceAll('x', "*");
                                     displayString =
                                         evaluateExpression(answer).toString();
+                                    // textField.setDisplayInput(displayString);
+                                    // print(textField.getDisplayInput);
                                     // displayString = "";
                                   } else {
                                     displayString += value;
