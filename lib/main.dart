@@ -127,9 +127,12 @@ class _MyHomePageState extends State<MyHomePage> {
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-              Color(primaryDefault),
               Color(primaryLight),
-              Color(primaryDark)
+              Color(primaryDefault),
+              Color(primaryDark),
+              Color(secondaryDark),
+              Color(secondaryDefault),
+              Color(secondaryLight)
             ])),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -246,9 +249,8 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12),
-                  color: Colors.green,
+                  color: Color(secondaryDefault),
                 ),
-                // width: double.infinity,
                 child: Row(
                   children: [
                     Expanded(
@@ -264,7 +266,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         equation,
                         style: const TextStyle(
                           fontSize: 16,
-                          color: Colors.black26,
+                          color: Colors.white24,
                           fontFamily: "Roboto",
                           fontWeight: FontWeight.bold,
                         ),
@@ -275,14 +277,13 @@ class _MyHomePageState extends State<MyHomePage> {
                       flex: 1,
                       child: IconButton(
                         onPressed: () =>
-                            Clipboard.setData(ClipboardData(text: equation)),
-                        // Clipboard.setData(ClipboardData(text: equation))
-                        //     .then((value) => ScaffoldMessenger.of(context)
-                        //             .showSnackBar(const SnackBar(
-                        //           content:
-                        //               Text("The Equation has been copied!"),
-                        //           duration: Duration(milliseconds: 500),
-                        //         ))),
+                            Clipboard.setData(ClipboardData(text: equation))
+                                .then((value) => ScaffoldMessenger.of(context)
+                                        .showSnackBar(const SnackBar(
+                                      content:
+                                          Text("The Equation has been copied!"),
+                                      duration: Duration(seconds: 1),
+                                    ))),
                         icon: const Icon(Icons.content_copy_rounded),
                         tooltip: "$equation has been copied to clipboard",
                       ),
@@ -295,7 +296,7 @@ class _MyHomePageState extends State<MyHomePage> {
               flex: 2,
               child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.amber,
+                  color: Color(primaryLight),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 width: double.infinity,
@@ -313,7 +314,6 @@ class _MyHomePageState extends State<MyHomePage> {
                       flex: 24,
                       child: Text(
                         displayString,
-                        // textWidthBasis: TextWidthBasis.longestLine,
                         style: const TextStyle(
                             color: Colors.black87,
                             fontFamily: "Roboto",
@@ -373,7 +373,6 @@ class _MyHomePageState extends State<MyHomePage> {
                                         displayString.replaceAll('x', "*");
                                     displayString =
                                         evaluateExpression(answer).toString();
-                                    // displayString = "";
                                   } else {
                                     displayString += value;
                                   }
