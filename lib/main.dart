@@ -107,9 +107,12 @@ class _MyHomePageState extends State<MyHomePage> {
   var displayString = "";
   var equation = "";
 
-  int primaryColor = 0xff6667ab;
-  int lightColor = 0xff9695dd;
-  int darkColor = 0xff373d7b;
+  int primaryDefault = 0xff6667ab;
+  int primaryLight = 0xff9695dd;
+  int primaryDark = 0xff373d7b;
+  int secondaryDefault = 0xff4f508f;
+  int secondaryLight = 0xff7e7cc0;
+  int secondaryDark = 0xff202861;
 
   @override
   Widget build(BuildContext context) {
@@ -119,14 +122,22 @@ class _MyHomePageState extends State<MyHomePage> {
 
     return Scaffold(
       body: Container(
-        color: Color(primaryColor),
+        decoration: BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+              Color(primaryDefault),
+              Color(primaryLight),
+              Color(primaryDark)
+            ])),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
-                color: Color(darkColor),
+                color: Color(primaryDark),
               ),
               height: MediaQuery.of(context).size.height * (heightScaleFactor),
               child: Row(
@@ -251,6 +262,12 @@ class _MyHomePageState extends State<MyHomePage> {
                       flex: 9,
                       child: Text(
                         equation,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          color: Colors.black26,
+                          fontFamily: "Roboto",
+                          fontWeight: FontWeight.bold,
+                        ),
                         textAlign: TextAlign.end,
                       ),
                     ),
@@ -296,6 +313,12 @@ class _MyHomePageState extends State<MyHomePage> {
                       flex: 24,
                       child: Text(
                         displayString,
+                        // textWidthBasis: TextWidthBasis.longestLine,
+                        style: const TextStyle(
+                            color: Colors.black87,
+                            fontFamily: "Roboto",
+                            fontSize: 32,
+                            fontWeight: FontWeight.bold),
                         textAlign: TextAlign.end,
                       ),
                     ),
@@ -319,7 +342,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(30),
                       topRight: Radius.circular(30)),
-                  color: Color(darkColor)),
+                  color: Color(primaryDark)),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: GridView(
@@ -339,7 +362,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 borderRadius: BorderRadius.circular(100)),
                             child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                                  backgroundColor: Color(lightColor)),
+                                  backgroundColor: Color(primaryLight)),
                               onPressed: () {
                                 setState(() {
                                   if (value == clear) {
