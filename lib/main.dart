@@ -240,6 +240,14 @@ class _MyHomePageState extends State<MyHomePage> {
                           icon: const Icon(Icons.delete)),
                     ),
                     Expanded(
+                      child: IconButton(
+                          onPressed: () => setState(() {
+                                Clipboard.getData(Clipboard.kTextPlain).then(
+                                    (value) => displayString += value!.text!);
+                              }),
+                          icon: const Icon(Icons.paste_rounded)),
+                    ),
+                    Expanded(
                       flex: 24,
                       child: Text(
                         displayString,
