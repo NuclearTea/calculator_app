@@ -1,11 +1,13 @@
 import 'dart:collection';
 // import 'package:calculator_app/resultant_form.dart';
+import 'package:calculator_app/color_pallette.dart';
+import 'package:calculator_app/pantone_colour_pallette.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import "package:math_expressions/math_expressions.dart";
 import "package:function_tree/function_tree.dart";
 import 'package:circular_buffer/circular_buffer.dart';
-// import 'package:calculator_app/suggestion_button.dart';
+import 'package:calculator_app/suggestion_button.dart';
 
 void main() {
   runApp(const MyApp());
@@ -40,6 +42,23 @@ class MyApp extends StatelessWidget {
   }
 }
 
+class DisplayStringWrapper {
+  String string = "";
+  DisplayStringWrapper(this.string);
+
+  void setDisplayString(DisplayStringWrapper data, String s) {
+    data.string = s;
+  }
+
+  String get getDisplayString {
+    return string;
+  }
+
+  void appendDisplayString(DisplayStringWrapper data, String s) {
+    data.string = data.string + s;
+  }
+}
+
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
 
@@ -59,7 +78,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 evaluateExpression(String equation) {
-  return equation.interpret();
+  return equation.interpret().toString();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
@@ -112,21 +131,97 @@ class _MyHomePageState extends State<MyHomePage> {
   // List<String> recentHistory = [];
   // var recentHistory = "";
   // List<String> recentHistory = List<String>.filled(4, " asdf");
-  var displayString = "";
+  var displayObject = DisplayStringWrapper("");
+  // String displayString= "";
+  // displayObject.getDisplayString();
   var equation = "";
 
-  int primaryDefault = 0xff6667ab;
-  int primaryLight = 0xff9695dd;
-  int primaryDark = 0xff373d7b;
-  int secondaryDefault = 0xff4f508f;
-  int secondaryLight = 0xff7e7cc0;
-  int secondaryDark = 0xff202861;
+  int suggestionButtonCounter = 0;
+
+  // int primaryDefault = 0xff6667ab;
+  // int primaryLight = 0xff9695dd;
+  // int primaryDark = 0xff373d7b;
+  // int secondaryDefault = 0xff4f508f;
+  // int secondaryLight = 0xff7e7cc0;
+  // int secondaryDark = 0xff202861;
+  // PantoneColorPallette pantone = PantoneColorPallette(
+  //     pantone.getPrimaryDark,
+  //     pantone.getPrimaryDefault,
+  //     pantone.getPrimaryLight,
+  //     pantone.getSecondaryDark,
+  //     pantone.getSecondaryDefault,
+  //     pantone.getSecondaryLight);
+  // PantoneColorPallette pantoneColors = PantoneColorPallette();
+  PantoneColorPallette pantonePallette = PantoneColorPallette();
+  // int primaryDefault = pantone.getPrimaryDefault;
+  // int primaryLight;
+  // int primaryDark = 0xff373d7b;
+  // int secondaryDefault = 0xff4f508f;
+  // int secondaryLight = 0xff7e7cc0;
+  // int secondaryDark = 0xff202861;
 
   @override
   Widget build(BuildContext context) {
     double heightScaleFactor = 1 / 10;
     double suggestionWidthScaleFactor = 1 / 6;
     double dividerWidthScaleFactor = 1 / 500;
+
+    // var suggestionButton0 = SuggestionButton(
+    //     data: displayObject,
+    //     // color: pantonePallette.getSecondaryDark,
+    //     pallette: pantone,
+    //     list: recentHistory,
+    //     index: 0);
+    // var suggestionButton1 = SuggestionButton(
+    //     data: displayObject,
+    //     // color: Color(secondaryDark),
+    //     color: pantonePallette.getSecondaryDark,
+
+    //     // pallette: pantone,
+    //     list: recentHistory,
+    //     index: 1);
+    // var suggestionButton2 = SuggestionButton(
+    //     data: displayObject,
+    //     // color: Color(secondaryDark),
+
+    //     // pallette: pantone,
+    //     list: recentHistory,
+    //     index: 2);
+    // var suggestionButton3 = SuggestionButton(
+    //     data: displayObject,
+    //     // color: Color(secondaryDark),
+    //     pallette: pantone,
+    //     list: recentHistory,
+    //     index: 3);
+
+    // SuggestionButton suggestionButton0 = SuggestionButton(
+    //     pallette: pantonePallette, recentHistory,
+    //     data: displayObject, index: 0);
+    // SuggestionButton suggestionButton1 = SuggestionButton(
+    //     pantonePallette, recentHistory,
+    //     data: displayObject, index: 1);
+    // SuggestionButton suggestionButton2 = SuggestionButton(
+    //     pantonePallette, recentHistory,
+    //     data: displayObject, index: 2);
+    // SuggestionButton suggestionButton3 = SuggestionButton(
+    //     pantonePallette, recentHistory,
+    //     data: displayObject, index: 3);
+
+    SuggestionButton suggestionButton0 =
+        SuggestionButton(displayObject, 0, recentHistory, pantonePallette);
+    SuggestionButton suggestionButton1 =
+        SuggestionButton(displayObject, 1, recentHistory, pantonePallette);
+    SuggestionButton suggestionButton2 =
+        SuggestionButton(displayObject, 2, recentHistory, pantonePallette);
+    SuggestionButton suggestionButton3 =
+        SuggestionButton(displayObject, 3, recentHistory, pantonePallette);
+
+    Map<SuggestionButton, int?> buttonMap = {
+      suggestionButton0: suggestionButton0.getIndex,
+      suggestionButton1: suggestionButton1.getIndex,
+      suggestionButton2: suggestionButton2.getIndex,
+      suggestionButton3: suggestionButton3.getIndex
+    };
 
     return Scaffold(
       body: Container(
@@ -135,12 +230,12 @@ class _MyHomePageState extends State<MyHomePage> {
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-              Color(primaryLight),
-              Color(primaryDefault),
-              Color(primaryDark),
-              Color(secondaryDark),
-              Color(secondaryDefault),
-              Color(secondaryLight)
+              Color(pantonePallette.getPrimaryLight),
+              Color(pantonePallette.getPrimaryDefault),
+              Color(pantonePallette.getPrimaryDark),
+              Color(pantonePallette.getSecondaryDark),
+              Color(pantonePallette.getSecondaryDefault),
+              Color(pantonePallette.getSecondaryLight)
             ])),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -148,17 +243,17 @@ class _MyHomePageState extends State<MyHomePage> {
             Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
-                color: Color(primaryDark),
+                color: Color(pantonePallette.getPrimaryDark),
               ),
               height: MediaQuery.of(context).size.height * (heightScaleFactor),
               // child: manualAppBar(heightScaleFactor: heightScaleFactor, dividerWidthScaleFactor: dividerWidthScaleFactor, suggestionWidthScaleFactor: suggestionWidthScaleFactor),
               child: AppBar(
-                backgroundColor: Color(primaryLight),
+                backgroundColor: Color(pantonePallette.getPrimaryLight),
                 actions: [
-                  suggestionButton(Color(secondaryDark), recentHistory, 0),
-                  suggestionButton(Color(secondaryDark), recentHistory, 1),
-                  suggestionButton(Color(secondaryDark), recentHistory, 2),
-                  suggestionButton(Color(secondaryDark), recentHistory, 3),
+                  suggestionButton0,
+                  suggestionButton1,
+                  suggestionButton2,
+                  suggestionButton3,
                   // suggestionButton()
 
                   //   ElevatedButton(
@@ -178,7 +273,7 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Container(
                 decoration: BoxDecoration(
                   // borderRadius: BorderRadius.circular(12),
-                  color: Color(secondaryDefault),
+                  color: Color(pantonePallette.getSecondaryDefault),
                 ),
                 child: Row(
                   children: [
@@ -225,7 +320,7 @@ class _MyHomePageState extends State<MyHomePage> {
               flex: 2,
               child: Container(
                 decoration: BoxDecoration(
-                  color: Color(primaryLight),
+                  color: Color(pantonePallette.getPrimaryLight),
                   // borderRadius: BorderRadius.circular(12),
                 ),
                 width: double.infinity,
@@ -236,13 +331,14 @@ class _MyHomePageState extends State<MyHomePage> {
                       child: IconButton(
                           iconSize: 60,
                           alignment: Alignment.centerLeft,
-                          onPressed: () => setState(() => displayString = ""),
+                          onPressed: () => setState(() => displayObject
+                              .setDisplayString(displayObject, "")),
                           icon: const Icon(Icons.delete)),
                     ),
                     Expanded(
                       flex: 24,
                       child: Text(
-                        displayString,
+                        displayObject.getDisplayString,
                         style: const TextStyle(
                             color: Colors.black87,
                             fontFamily: "Roboto",
@@ -256,8 +352,14 @@ class _MyHomePageState extends State<MyHomePage> {
                         IconButton(
                             iconSize: 30,
                             onPressed: () => setState(() {
-                                  Clipboard.getData(Clipboard.kTextPlain).then(
-                                      (value) => displayString += value!.text!);
+                                  Clipboard.getData(Clipboard.kTextPlain)
+                                      .then((value) {
+                                    var s =
+                                        displayObject.string += value!.text!;
+
+                                    displayObject.setDisplayString(
+                                        displayObject, s);
+                                  });
                                 }),
                             icon: const Icon(Icons.paste_rounded)),
                         Expanded(
@@ -265,9 +367,12 @@ class _MyHomePageState extends State<MyHomePage> {
                           child: IconButton(
                               iconSize: 40,
                               // alignment: Alignment.centerRight,
-                              onPressed: () => setState(() => displayString =
-                                  displayString.substring(
-                                      0, displayString.length - 1)),
+                              onPressed: () => setState(() {
+                                    var s = displayObject.string.substring(
+                                        0, displayObject.string.length - 1);
+                                    displayObject.setDisplayString(
+                                        displayObject, s);
+                                  }),
                               icon:
                                   const Icon(Icons.arrow_circle_left_rounded)),
                         ),
@@ -283,7 +388,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(20),
                       topRight: Radius.circular(20)),
-                  color: Color(primaryDark)),
+                  color: Color(pantonePallette.getPrimaryDark)),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: GridView(
@@ -303,24 +408,29 @@ class _MyHomePageState extends State<MyHomePage> {
                             //     borderRadius: BorderRadius.circular(100)),
                             child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                                  backgroundColor: Color(primaryLight),
+                                  backgroundColor:
+                                      Color(pantonePallette.getPrimaryLight),
                                   shape: const RoundedRectangleBorder(
                                       borderRadius: BorderRadius.all(
                                           Radius.circular(20)))),
                               onPressed: () {
                                 setState(() {
                                   if (value == equalButton) {
-                                    equation = displayString;
-                                    var answer =
-                                        displayString.replaceAll('x', "*");
-                                    displayString =
-                                        evaluateExpression(answer).toString();
+                                    // suggestionButtonCounter++;
+                                    equation = displayObject.getDisplayString;
+                                    var answer = displayObject.getDisplayString
+                                        .replaceAll('x', "*");
+                                    displayObject.setDisplayString(
+                                        displayObject, equation);
+                                    // displayString = evaluateExpression(answer);
                                     recentHistory[0] =
-                                        evaluateExpression(answer).toString();
+                                        evaluateExpression(answer);
                                   } else {
-                                    displayString += value;
+                                    var s = displayObject.string += value;
+                                    displayObject.setDisplayString(
+                                        displayObject, s);
                                   }
-                                  print(displayString);
+                                  print(displayObject.getDisplayString);
                                 });
                               },
                               child: FittedBox(
@@ -346,48 +456,46 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  Expanded suggestionButton(Color color, List<String> list, int index) {
-    return Expanded(
-      child: TextButton(
-          style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(Color(secondaryDark)),
-              shape:
-                  MaterialStateProperty.all(const ContinuousRectangleBorder())),
-          onPressed: () {
-            setState(() {
-              displayString = displayString + list[index];
-            });
-            print("suggestion button ${index + 1} pressed");
-          },
-          child: Text(
-            list[index],
-            style: const TextStyle(
-                fontFamily: "Roboto",
-                fontWeight: FontWeight.bold,
-                fontSize: 16,
-                color: Colors.white54),
-          )),
-    );
-  }
+  // Expanded suggestionButton(Color color, List<String> list, int index) {
+  //   return Expanded(
+  //     child: TextButton(
+  //         style: ButtonStyle(
+  //             backgroundColor: MaterialStateProperty.all(Color(secondaryDark)),
+  //             shape:
+  //                 MaterialStateProperty.all(const ContinuousRectangleBorder())),
+  //         onPressed: () {
+  //           setState(() {
+  //             var s = displayObject.getDisplayString + list[index];
+  //             displayObject.setDisplayString(displayObject, s);
+  //             // displayString = displayString + list[index];
+  //           });
+  //           print("suggestion button ${index + 1} pressed");
+  //         },
+  //         child: Text(
+  //           list[index],
+  //           style: const TextStyle(
+  //               fontFamily: "Roboto",
+  //               fontWeight: FontWeight.bold,
+  //               fontSize: 16,
+  //               color: Colors.white54),
+  //         )),
+  //   );
 
   /*
     Returns index of which suggetstion button should be repopulated next
   */
-  int whichButton(List<String> list) {
+  int whichButton(List<String> list, int counter) {
     // first check if there are any empty suggestion button through the list of recent history
-    bool fullList;
-    // int indexOfEmptyButton;
     for (int i = 0; i < list.length; i++) {
       if (list[i] == "") {
-        // emptyButton = true;
-        // indexOfEmptyButton = i;
         return i;
       }
     }
 
-    fullList = true;
-
-    return 0;
+    // This means that the list is full, once the list is full
+    // Counter will tell us what index to return
+    if (counter >= 4) counter = 0;
+    return counter % 5;
   }
 }
 

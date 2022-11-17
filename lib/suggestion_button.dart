@@ -1,71 +1,85 @@
-// import 'package:flutter/material.dart';
-// import 'package:flutter/src/widgets/container.dart';
-// import 'package:flutter/src/widgets/framework.dart';
+import 'package:calculator_app/color_pallette.dart';
+import 'package:calculator_app/main.dart';
+import 'package:calculator_app/pantone_colour_pallette.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/src/widgets/container.dart';
+import 'package:flutter/src/widgets/framework.dart';
 
-// class SuggestionButton extends StatefulWidget {
-//   final Color color;
-  
-//   final List<String> list;
-  
-//   final int index;
-  
-//   late final String displayString;
-//  get getDisplayString => this.displayString;
+class SuggestionButton extends StatefulWidget {
+  DisplayStringWrapper data;
+  int index;
+  ColorPallette pallette;
+  List<String> list;
 
-//  set setDisplayString(final displayString) => this.displayString = displayString;
+  get getData => data;
 
-//   SuggestionButton({
-//     Key? key,
-//     required this.color,
-//     required this.list,
-//     required this.index,
-//     required this.displayString,
-//   }) : super(key: key);
+  get getIndex => index;
 
-//   @override
-//   State<SuggestionButton> createState() => SuggestionButtonState();
-// }
+  set setPallette(ColorPallette p) => pallette = p;
+  get getPallette => pallette;
 
-// class SuggestionButtonState extends State<SuggestionButton> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return TextButton(
-//       style: TextButton.styleFrom(
-//         backgroundColor: widget.color,
-//       ),
-//       onPressed: () {
-//         setState(() {
-//           widget.setDisplayString();
-//           widget.displayString + widget.list[widget.index];
-//         });
-//         print("suggestion button ${widget.index + 1} pressed");
-//       },
-//       child: Text(widget.list[widget.index]));
-// };
+  get getList => list;
 
+  // // ignore: prefer_const_constructors_in_immutables
+  // SuggestionButton(
+  //     // DisplayStringWrapper data,
+  //     // int index,
+  //     // required Color color,
+  //     ColorPallette pallette,
+  //     List<String> list,
+  //     {super.key,
+  //     required DisplayStringWrapper data,
+  //     required int index});
 
+  SuggestionButton(this.data, this.index, this.list, this.pallette,
+      {super.key});
 
+  @override
+  State<SuggestionButton> createState() => _SuggestionButtonState();
+}
 
+class _SuggestionButtonState extends State<SuggestionButton> {
+  // set setIndex(int index) => this.index = index;
 
-// // import 'dart:ui';
+  // String displayString = "";
+  // String get getDisplayString => displayString;
+  // set setDisplayString(String displayString) =>
+  //     this.displayString = displayString;
+  // set setDisplayString(String string) {
+  //   if (displayString != string) displayString = string;
+  // }
 
-// // import 'package:flutter/material.dart';
+  // void setDisplayString(String s) {
+  //   displayString = s;
+  // }
 
+  // final ColorPallette pallette = ColorPallette();
 
-
-
-
-// // TextButton suggestionButton(
-// //     Color color, List<String> list, int index, String displayString) {
-// //   return TextButton(
-// //       style: TextButton.styleFrom(
-// //         backgroundColor: color,
-// //       ),
-// //       onPressed: () {
-// //         setState(() {
-// //           displayString = displayString + list[index];
-// //         });
-// //         print("suggestion button ${index + 1} pressed");
-// //       },
-// //       child: Text(list[index]));
-// // }
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: TextButton(
+          style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(
+                  Color(widget.pallette.getSecondaryDark)),
+              shape:
+                  MaterialStateProperty.all(const ContinuousRectangleBorder())),
+          onPressed: () {
+            setState(() {
+              // setDisplayString(getDisplayString + getList[getIndex]);
+              widget.data.appendDisplayString(
+                  widget.data, widget.getList[widget.index]);
+            });
+            print("suggestion button ${widget.index + 1} pressed");
+          },
+          child: Text(
+            widget.getList[widget.index],
+            style: const TextStyle(
+                fontFamily: "Roboto",
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+                color: Colors.white54),
+          )),
+    );
+  }
+}
