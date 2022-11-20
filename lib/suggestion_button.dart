@@ -1,4 +1,5 @@
 import 'package:calculator_app/color_pallette.dart';
+import 'package:calculator_app/display_string_widget.dart';
 import 'package:calculator_app/main.dart';
 import 'package:calculator_app/pantone_colour_pallette.dart';
 import 'package:flutter/material.dart';
@@ -6,12 +7,16 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
 class SuggestionButton extends StatefulWidget {
-  DisplayStringWrapper data;
-  int index;
+  final DisplayStringWrapper data;
+  final int index;
+  // final Function() setString;
+  // cannot make final because then setter won't work
+  // it is final, cannot change value
   ColorPallette pallette;
-  List<String> list;
 
-  get getData => data;
+  final List<String> list;
+
+  // get getData => data;
 
   get getIndex => index;
 
@@ -31,8 +36,13 @@ class SuggestionButton extends StatefulWidget {
   //     required DisplayStringWrapper data,
   //     required int index});
 
-  SuggestionButton(this.data, this.index, this.list, this.pallette,
-      {super.key});
+  SuggestionButton(
+    this.index,
+    this.list,
+    this.pallette, {
+    super.key,
+    required this.data,
+  });
 
   @override
   State<SuggestionButton> createState() => _SuggestionButtonState();
@@ -68,9 +78,14 @@ class _SuggestionButtonState extends State<SuggestionButton> {
             setState(() {
               // setDisplayString(getDisplayString + getList[getIndex]);
               widget.data.appendDisplayString(
-                  widget.data, widget.getList[widget.index]);
+                  widget.data, widget.getList[widget.getIndex]);
+              // build(context);
+              // widget.data.setDisplayString(
+              //     widget.data,
+              //     widget.data.getDisplayString +
+              //         widget.getList[widget.getIndex]);
             });
-            print("suggestion button ${widget.index + 1} pressed");
+            print("suggestion button ${widget.index} pressed");
           },
           child: Text(
             widget.getList[widget.index],

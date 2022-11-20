@@ -1,6 +1,7 @@
 import 'dart:collection';
 // import 'package:calculator_app/resultant_form.dart';
 import 'package:calculator_app/color_pallette.dart';
+import 'package:calculator_app/display_string_widget.dart';
 import 'package:calculator_app/pantone_colour_pallette.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-        home: MyHomePage(
+        home: BasicCalculator(
       title: '',
     ));
     // return MaterialApp(
@@ -37,30 +38,13 @@ class MyApp extends StatelessWidget {
     //     // is not restarted.
     //     primarySwatch: Colors.blue,
     //   ),
-    //   home: const MyHomePage(title: 'Flutter Demo Home Page'),
+    //   home: const BasicCalculator(title: 'Flutter Demo Home Page'),
     // );
   }
 }
 
-class DisplayStringWrapper {
-  String string = "";
-  DisplayStringWrapper(this.string);
-
-  void setDisplayString(DisplayStringWrapper data, String s) {
-    data.string = s;
-  }
-
-  String get getDisplayString {
-    return string;
-  }
-
-  void appendDisplayString(DisplayStringWrapper data, String s) {
-    data.string = data.string + s;
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+class BasicCalculator extends StatefulWidget {
+  const BasicCalculator({super.key, required this.title});
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -74,14 +58,20 @@ class MyHomePage extends StatefulWidget {
   final String title;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<BasicCalculator> createState() => _BasicCalculatorState();
 }
 
 evaluateExpression(String equation) {
   return equation.interpret().toString();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _BasicCalculatorState extends State<BasicCalculator> {
+  void updateString(DisplayStringWrapper data) {
+    setState(() {
+      data.setDisplayString(data, data.getDisplayString);
+    });
+  }
+
   List<String> acceptableValues = [
     "(",
     ")",
@@ -131,9 +121,17 @@ class _MyHomePageState extends State<MyHomePage> {
   // List<String> recentHistory = [];
   // var recentHistory = "";
   // List<String> recentHistory = List<String>.filled(4, " asdf");
-  var displayObject = DisplayStringWrapper("");
+
+  // var displayObject = DisplayStringWrapper(
+  //   string: "",
+  //   updateString: updateString,
+  //   child: Container(),
+  // DisplayStringWrapper? displayObject = DisplayStringWrapper.of(context);
   // String displayString= "";
   // displayObject.getDisplayString();
+
+  DisplayStringWrapper displayObject = DisplayStringWrapper("");
+
   var equation = "";
 
   int suggestionButtonCounter = 0;
@@ -207,16 +205,16 @@ class _MyHomePageState extends State<MyHomePage> {
     //     pantonePallette, recentHistory,
     //     data: displayObject, index: 3);
 
-    SuggestionButton suggestionButton0 =
-        SuggestionButton(displayObject, 0, recentHistory, pantonePallette);
-    SuggestionButton suggestionButton1 =
-        SuggestionButton(displayObject, 1, recentHistory, pantonePallette);
-    SuggestionButton suggestionButton2 =
-        SuggestionButton(displayObject, 2, recentHistory, pantonePallette);
-    SuggestionButton suggestionButton3 =
-        SuggestionButton(displayObject, 3, recentHistory, pantonePallette);
+    SuggestionButton suggestionButton0 = SuggestionButton(
+        data: displayObject, 0, recentHistory, pantonePallette);
+    SuggestionButton suggestionButton1 = SuggestionButton(
+        data: displayObject, 1, recentHistory, pantonePallette);
+    SuggestionButton suggestionButton2 = SuggestionButton(
+        data: displayObject, 2, recentHistory, pantonePallette);
+    SuggestionButton suggestionButton3 = SuggestionButton(
+        data: displayObject, 3, recentHistory, pantonePallette);
 
-    Map<SuggestionButton, int?> buttonMap = {
+    Map<SuggestionButton, int> buttonMap = {
       suggestionButton0: suggestionButton0.getIndex,
       suggestionButton1: suggestionButton1.getIndex,
       suggestionButton2: suggestionButton2.getIndex,
@@ -421,10 +419,15 @@ class _MyHomePageState extends State<MyHomePage> {
                                     var answer = displayObject.getDisplayString
                                         .replaceAll('x', "*");
                                     displayObject.setDisplayString(
-                                        displayObject, equation);
+                                        displayObject,
+                                        evaluateExpression(answer));
                                     // displayString = evaluateExpression(answer);
                                     recentHistory[0] =
                                         evaluateExpression(answer);
+                                    // for (int i = 0; i< buttonMap.length; i++){
+                                    //   if (buttonMap[i] == on)
+                                    // }
+                                    // build(context);
                                   } else {
                                     var s = displayObject.string += value;
                                     displayObject.setDisplayString(
@@ -432,6 +435,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   }
                                   print(displayObject.getDisplayString);
                                 });
+                                build(context);
                               },
                               child: FittedBox(
                                 fit: BoxFit.contain,
