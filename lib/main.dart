@@ -101,11 +101,12 @@ class _MyHomePageState extends State<MyHomePage> {
 
   String clear = "C";
   String equalButton = "=";
-  String decimalPoint = ".";
+  // String decimalPoint = ".";
 
-  Queue recentHistory = Queue();
-  var displayString = "";
-  var equation = "";
+  List<String> recentHistory = List<int>.filled(4, 0).map((e) => "").toList();
+
+  String displayString = "";
+  String equation = "";
 
   int primaryDefault = 0xff6667ab;
   int primaryLight = 0xff9695dd;
@@ -310,6 +311,19 @@ class _MyHomePageState extends State<MyHomePage> {
                           onPressed: () => setState(() => displayString = ""),
                           icon: const Icon(Icons.delete)),
                     ),
+                    // Expanded(
+                    //   flex: 24,
+                    //   child: Text(
+                    //     // displayObject.getDisplayString,
+                    //     displayObject.string,
+                    //     style: const TextStyle(
+                    //         color: Colors.black87,
+                    //         fontFamily: "Roboto",
+                    //         fontSize: 32,
+                    //         fontWeight: FontWeight.bold),
+                    //     textAlign: TextAlign.end,
+                    //   ),
+                    // ),
                     Expanded(
                       flex: 24,
                       child: Text(
