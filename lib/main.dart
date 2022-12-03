@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import "package:math_expressions/math_expressions.dart";
 import "package:function_tree/function_tree.dart";
+import 'package:basic_utils/basic_utils.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-        home: MyHomePage(
+        home: BasicCalculator(
       title: '',
     ));
     // return MaterialApp(
@@ -38,8 +39,8 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+class BasicCalculator extends StatefulWidget {
+  const BasicCalculator({super.key, required this.title});
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -53,18 +54,18 @@ class MyHomePage extends StatefulWidget {
   final String title;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<BasicCalculator> createState() => _BasicCalculatorState();
 }
 
 evaluateExpression(String equation) {
-  return equation.interpret();
+  return equation.interpret().toString();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _BasicCalculatorState extends State<BasicCalculator> {
   List<String> acceptableValues = [
-    "C",
     "(",
     ")",
+    "^",
     "/",
     "7",
     "8",
@@ -99,9 +100,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   List<String> operations = ["+", "-", "x", "/"];
 
-  String clear = "C";
+  String negate = "+/-";
   String equalButton = "=";
-  // String decimalPoint = ".";
 
   List<String> recentHistory = List<int>.filled(4, 0).map((e) => "").toList();
 
@@ -115,12 +115,9 @@ class _MyHomePageState extends State<MyHomePage> {
   int secondaryLight = 0xff7e7cc0;
   int secondaryDark = 0xff202861;
 
+  int suggestionButtoncounter = 0;
   @override
   Widget build(BuildContext context) {
-    double heightScaleFactor = 1 / 10;
-    double suggestionWidthScaleFactor = 1 / 6;
-    double dividerWidthScaleFactor = 1 / 500;
-
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -138,123 +135,26 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: Color(primaryDark),
-              ),
-              height: MediaQuery.of(context).size.height * (heightScaleFactor),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * (7 / 24),
-                    height: MediaQuery.of(context).size.height *
-                        (heightScaleFactor),
-                    child: IconButton(
-                      iconSize: 50,
-                      icon: const Icon(
-                        Icons.menu_rounded,
-                        color: Colors.white70,
-                      ),
-                      onPressed: () {},
-                    ),
-                  ),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width *
-                        (dividerWidthScaleFactor),
-                    child: const Text(
-                      "|",
-                      textAlign: TextAlign.end,
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w100,
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width *
-                        (suggestionWidthScaleFactor),
-                    height: MediaQuery.of(context).size.height *
-                        (heightScaleFactor),
-                    child: TextButton(
-                        onPressed: () {},
-                        child: const Text(
-                          "500",
-                          style: TextStyle(
-                              color: Colors.grey,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20),
-                        )),
-                  ),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width *
-                        (dividerWidthScaleFactor),
-                    child: Text(
-                      "|",
-                      textAlign: TextAlign.end,
-                      style:
-                          TextStyle(color: Colors.grey.shade700, fontSize: 20),
-                    ),
-                  ),
-                  SizedBox(
-                      width: MediaQuery.of(context).size.width *
-                          (suggestionWidthScaleFactor),
-                      height: MediaQuery.of(context).size.height *
-                          (heightScaleFactor),
-                      child: TextButton(
-                          onPressed: () {}, child: const Text("Suggestion"))),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width *
-                        (dividerWidthScaleFactor),
-                    child: const Text(
-                      "|",
-                      textAlign: TextAlign.end,
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w100,
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                      width: MediaQuery.of(context).size.width *
-                          (suggestionWidthScaleFactor),
-                      height: MediaQuery.of(context).size.height *
-                          (heightScaleFactor),
-                      child: TextButton(
-                          onPressed: () {}, child: const Text("Suggestion"))),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width *
-                        (dividerWidthScaleFactor),
-                    child: const Text(
-                      "|",
-                      textAlign: TextAlign.end,
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w100,
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                      width: MediaQuery.of(context).size.width *
-                          (suggestionWidthScaleFactor),
-                      height: MediaQuery.of(context).size.height *
-                          (heightScaleFactor),
-                      child: TextButton(
-                          onPressed: () {}, child: const Text("Suggestion"))),
-                ],
-              ),
+            AppBar(
+              actions: [
+                suggestionButton(secondaryDark, 0),
+                suggestionButton(secondaryDark, 1),
+                suggestionButton(secondaryDark, 2),
+                suggestionButton(secondaryDark, 3)
+              ],
+              // )
             ),
             Expanded(
+              // equation bar
               flex: 1,
               child: Container(
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
                   color: Color(secondaryDefault),
                 ),
                 child: Row(
                   children: [
                     Expanded(
+                      // delete button
                       flex: 1,
                       child: IconButton(
                           iconSize: 40,
@@ -262,6 +162,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           icon: const Icon(Icons.delete)),
                     ),
                     Expanded(
+                      // displays equation
                       flex: 9,
                       child: Text(
                         equation,
@@ -275,6 +176,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                     ),
                     Expanded(
+                      // copy to clipboard button
                       flex: 1,
                       child: IconButton(
                         onPressed: () =>
@@ -298,7 +200,6 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Container(
                 decoration: BoxDecoration(
                   color: Color(primaryLight),
-                  borderRadius: BorderRadius.circular(12),
                 ),
                 width: double.infinity,
                 child: Row(
@@ -311,20 +212,8 @@ class _MyHomePageState extends State<MyHomePage> {
                           onPressed: () => setState(() => displayString = ""),
                           icon: const Icon(Icons.delete)),
                     ),
-                    // Expanded(
-                    //   flex: 24,
-                    //   child: Text(
-                    //     // displayObject.getDisplayString,
-                    //     displayObject.string,
-                    //     style: const TextStyle(
-                    //         color: Colors.black87,
-                    //         fontFamily: "Roboto",
-                    //         fontSize: 32,
-                    //         fontWeight: FontWeight.bold),
-                    //     textAlign: TextAlign.end,
-                    //   ),
-                    // ),
                     Expanded(
+                      // Delete string button
                       flex: 24,
                       child: Text(
                         displayString,
@@ -336,15 +225,33 @@ class _MyHomePageState extends State<MyHomePage> {
                         textAlign: TextAlign.end,
                       ),
                     ),
-                    Expanded(
-                      flex: 8,
-                      child: IconButton(
-                          iconSize: 40,
-                          alignment: Alignment.centerRight,
-                          onPressed: () => setState(() => displayString =
-                              displayString.substring(
-                                  0, displayString.length - 1)),
-                          icon: const Icon(Icons.arrow_circle_left_rounded)),
+                    Column(
+                      children: [
+                        IconButton(
+                            // paste clipboard button
+                            iconSize: 30,
+                            onPressed: () => setState(() {
+                                  Clipboard.getData(Clipboard.kTextPlain)
+                                      .then((value) {
+                                    String s0 = displayString;
+                                    var s1 = s0 += value!.text!;
+                                    displayString = s1;
+                                  });
+                                }),
+                            icon: const Icon(Icons.paste_rounded)),
+                        Expanded(
+                          // delete most recent charecter button
+                          flex: 8,
+                          child: IconButton(
+                              iconSize: 40,
+                              alignment: Alignment.centerRight,
+                              onPressed: () => setState(() => displayString =
+                                  displayString.substring(
+                                      0, displayString.length - 1)),
+                              icon:
+                                  const Icon(Icons.arrow_circle_left_rounded)),
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -354,8 +261,8 @@ class _MyHomePageState extends State<MyHomePage> {
               margin: const EdgeInsets.fromLTRB(10, 0, 10, 0),
               decoration: BoxDecoration(
                   borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(30),
-                      topRight: Radius.circular(30)),
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20)),
                   color: Color(primaryDark)),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -371,23 +278,42 @@ class _MyHomePageState extends State<MyHomePage> {
                     children: acceptableValues
                         .map(
                           (value) => Container(
-                            margin: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(100)),
+                            margin: const EdgeInsets.fromLTRB(5, 5, 5, 0),
                             child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                                  backgroundColor: Color(primaryLight)),
+                                  backgroundColor: Color(primaryLight),
+                                  shape: const RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(20)))),
                               onPressed: () {
                                 setState(() {
-                                  if (value == clear) {
-                                    displayString = "";
-                                  } else if (value == equalButton) {
-                                    equation = displayString;
-                                    var answer =
-                                        displayString.replaceAll('x', "*");
-                                    displayString =
-                                        evaluateExpression(answer).toString();
+                                  if (value == equalButton) {
+                                    // equal button is pressed
+                                    equation =
+                                        displayString; // equation bar is set to current unsolved equation in main bar
+                                    var answer = displayString.replaceAll('x',
+                                        "*"); // replaces x with * as library doesn't recognize x as multiplication
+                                    displayString = evaluateExpression(
+                                        answer); // display string is now the answer
+
+                                    recentHistory[suggestionButtoncounter % 4] =
+                                        displayString; // mod 4 because then only values given are [0,3]
+                                    suggestionButtoncounter++;
+                                  } else if (value == negate) {
+                                    // button pressed == "+/-"
+                                    if (displayString[0] != "-") {
+                                      displayString =
+                                          StringUtils.addCharAtPosition(
+                                              displayString, "-", 0);
+                                    } else {
+                                      // first element is "-"
+                                      displayString =
+                                          StringUtils.removeCharAtPosition(
+                                              displayString,
+                                              1); // int value represents position, so it starts at 1
+                                    }
                                   } else {
+                                    // appends on button value
                                     displayString += value;
                                   }
                                   print(displayString);
@@ -413,6 +339,30 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
+    );
+  }
+
+  Expanded suggestionButton(int color, int index) {
+    return Expanded(
+      child: TextButton(
+          style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(Color(color)),
+              shape:
+                  MaterialStateProperty.all(const ContinuousRectangleBorder())),
+          onPressed: () {
+            setState(() {
+              displayString += recentHistory[index];
+            });
+            print("suggestion button ${recentHistory[0]} pressed");
+          },
+          child: Text(
+            recentHistory[index],
+            style: const TextStyle(
+                fontFamily: "Roboto",
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+                color: Colors.white54),
+          )),
     );
   }
 }
