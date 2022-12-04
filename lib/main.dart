@@ -196,6 +196,7 @@ class _BasicCalculatorState extends State<BasicCalculator> {
               ),
             ),
             Expanded(
+              // Main Bar
               flex: 2,
               child: Container(
                 decoration: BoxDecoration(
@@ -205,6 +206,7 @@ class _BasicCalculatorState extends State<BasicCalculator> {
                 child: Row(
                   children: [
                     Expanded(
+                      // Delete string button
                       flex: 8,
                       child: IconButton(
                           iconSize: 60,
@@ -213,7 +215,7 @@ class _BasicCalculatorState extends State<BasicCalculator> {
                           icon: const Icon(Icons.delete)),
                     ),
                     Expanded(
-                      // Delete string button
+                      // user input
                       flex: 24,
                       child: Text(
                         displayString,
@@ -227,21 +229,22 @@ class _BasicCalculatorState extends State<BasicCalculator> {
                     ),
                     Column(
                       children: [
-                        IconButton(
-                            // paste clipboard button
-                            iconSize: 30,
-                            onPressed: () => setState(() {
-                                  Clipboard.getData(Clipboard.kTextPlain)
-                                      .then((value) {
-                                    String s0 = displayString;
-                                    var s1 = s0 += value!.text!;
-                                    displayString = s1;
-                                  });
-                                }),
-                            icon: const Icon(Icons.paste_rounded)),
+                        Expanded(
+                          // paste clipboard button
+                          child: IconButton(
+                              iconSize: 30,
+                              onPressed: () => setState(() {
+                                    Clipboard.getData(Clipboard.kTextPlain)
+                                        .then((value) {
+                                      // appends on the text saved in clipbaord
+                                      // lots of potential null values, thus, checking for those using !
+                                      displayString += value!.text!;
+                                    });
+                                  }),
+                              icon: const Icon(Icons.paste_rounded)),
+                        ),
                         Expanded(
                           // delete most recent charecter button
-                          flex: 8,
                           child: IconButton(
                               iconSize: 40,
                               alignment: Alignment.centerRight,
