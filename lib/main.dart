@@ -21,7 +21,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   int index = 0;
   final pages = <Widget>[
-    BasicCalculator(),
+    const BasicCalculator(),
     const Center(child: Text("Page 1")),
     const Center(child: Text("Page 2")),
     const Center(child: Text("Page 3")),
@@ -54,23 +54,3 @@ class _MyAppState extends State<MyApp> {
     ));
   }
 }
-
-// class MyApp extends StatefulWidget {
-//   const MyApp({super.key});
-
-//   // This widget is the root of your application.
-  
-//   }
-  
-//   @override
-//   State<StatefulWidget> createState() {
-//     @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       initialRoute: "/BasicCalculator",
-//       routes: {
-//         "/BasicCalculator": ((context) => const BasicCalculator()),
-//       },
-//     );
-  // }
-// }

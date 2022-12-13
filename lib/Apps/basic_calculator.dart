@@ -71,7 +71,6 @@ class _BasicCalculatorState extends State<BasicCalculator> {
   int suggestionButtoncounter = 0;
   @override
   Widget build(BuildContext context) {
-    Color color = Colors.black;
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -232,8 +231,8 @@ class _BasicCalculatorState extends State<BasicCalculator> {
                           const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 4,
                         childAspectRatio: 2,
-                        crossAxisSpacing: 5,
-                        mainAxisSpacing: 20,
+                        crossAxisSpacing: 2,
+                        mainAxisSpacing: 35,
                       ),
                       children: acceptableValues
                           .map(
@@ -315,7 +314,7 @@ class _BasicCalculatorState extends State<BasicCalculator> {
             setState(() {
               displayString += recentHistory[index];
             });
-            print("suggestion button ${recentHistory[0]} pressed");
+            print("suggestion button ${recentHistory[index]} pressed");
           },
           child: Text(
             recentHistory[index],
